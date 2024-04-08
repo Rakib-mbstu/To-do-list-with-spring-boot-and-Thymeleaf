@@ -1,10 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-
+<div>
+    <h1>TODO LIST</h1>
+    <table>
+        <thead>
+        <tr>
+            <td>COMPLETED</td>
+            <td>FAVOURITE</td>
+            <td>DESCRIPTION</td>
+            <td>ACTION</td>
+        </tr>
+        </thead>
+        <tr th:each="todo: ${todoLists}">
+            <td ></td>
+            <td ></td>
+            <td th:text="${todo.description}"></td>
+            <td>
+                <form th:action="@{'/todos/' + ${todo.id}}" th:method="">
+                    <button type="submit">DELETE</button>
+                </form>
+                <button>DELETE</button>
+            </td>
+        </tr>
+    </table>
+    <form action="todos" method="post">
+        <label>
+            <input type="text" name="description">
+        </label>
+        <button type="submit">submit</button>
+    </form>
+</div>
 </body>
 </html>
