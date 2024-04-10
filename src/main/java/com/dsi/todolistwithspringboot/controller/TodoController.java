@@ -21,7 +21,7 @@ public class TodoController {
     }
 
 
-    @RequestMapping(value = "/todos",method = RequestMethod.GET)
+    @RequestMapping(value = {"/","/todos"},method = RequestMethod.GET)
     public String todosList(Model model) {
         List<Todo> todoLists = service.findAll();
         model.addAttribute("todoLists", todoLists);
@@ -31,26 +31,25 @@ public class TodoController {
     @GetMapping("/todos/{id}")
     public String todos(@PathVariable("id") int id, Model model) {
         Optional<Todo> todo = service.findById(id);
-        model.addAttribute("todoLists", todo);
-        return "index";
+        Todo todo1 = todo.orElseThrow();
+        model.addAttribute("todo", todo1);
+        return "edit";
     }
 
-    @RequestMapping (value = "/todos",method = RequestMethod.POST)
+    @RequestMapping (value = "/save",method = RequestMethod.POST)
     public String saveTodo(Todo todo, Model model) {
         service.save(todo);
-        System.out.println("POST");
        return "redirect:/todos";
     }
-    @PutMapping("/todos")
+   @RequestMapping(value = "/update",method = RequestMethod.POST)
     public String updateTodo(Todo todo) {
-        System.out.println("PUT");
+        System.out.println("ok");
         service.update(todo);
         return "redirect:/todos";
     }
 
-    @DeleteMapping("/todos/{id}")
+    @GetMapping("/delete/{id}")
     public String delete(@PathVariable("id") int id) {
-        System.out.println("delete");
         service.delete(id);
         return "redirect:/todos";
     }
