@@ -2,8 +2,11 @@ package com.dsi.todolistwithspringboot.controller;
 
 import com.dsi.todolistwithspringboot.model.Todo;
 import com.dsi.todolistwithspringboot.service.TodoService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
@@ -13,12 +16,9 @@ import java.util.Optional;
 
 @Controller
 @EnableWebMvc
+@RequiredArgsConstructor
 public class TodoController {
     private final TodoService service;
-
-    public TodoController(TodoService service) {
-        this.service = service;
-    }
 
 
     @RequestMapping(value = {"/","/todos"},method = RequestMethod.GET)
@@ -37,7 +37,10 @@ public class TodoController {
     }
 
     @RequestMapping (value = "/save",method = RequestMethod.POST)
-    public String saveTodo(Todo todo, Model model) {
+    public String saveTodo(@Valid  Todo todo, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            return "error";
+        }
         service.save(todo);
        return "redirect:/todos";
     }

@@ -1,18 +1,17 @@
 package com.dsi.todolistwithspringboot.service;
 import com.dsi.todolistwithspringboot.model.Todo;
 import com.dsi.todolistwithspringboot.repository.TodoRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class TodoService {
     private final TodoRepository todoRepo;
 
-    public TodoService(TodoRepository todoListRepo) {
-        this.todoRepo = todoListRepo;
-    }
     public List<Todo> findAll(){
         return todoRepo.findAll();
     }
